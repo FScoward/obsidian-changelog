@@ -1,4 +1,5 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { table } from 'console';
+import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, moment } from 'obsidian';
 
 // Remember to rename these classes and interfaces!
 
@@ -15,6 +16,23 @@ export default class MyPlugin extends Plugin {
 
 	async onload() {
 		await this.loadSettings();
+
+
+		this.addCommand({
+			id: 'insert-new-changelog',
+			name: 'Insert New Changelog',
+			editorCallback: (editor: Editor) => {
+				const changelogSection = '# Changelog \n'
+				const changelogHeader = '| date | description | \n';
+				const tableSeparator = ' | --- | --- | \n'
+				const newChangelog = ' | [[' + moment().format("YYYY-MM-DD") + ']] | create a new entry. | \n'
+
+				editor.setCursor(editor.lastLine())
+				editor.replaceRange(changelogSection + changelogHeader + tableSeparator + newChangelog, editor.getCursor());
+			},
+		})
+
+		// -----------------------------
 
 		// This creates an icon in the left ribbon.
 		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
