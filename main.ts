@@ -32,6 +32,15 @@ export default class MyPlugin extends Plugin {
 			},
 		})
 
+		this.addCommand({
+			id: 'insert-update-changelog',
+			name: 'Insert Upadate Changelog',
+			editorCallback: (editor: Editor) => {
+				const updateChangelog = ' | [[' + moment().format("YYYY-MM-DD") + ']] | update entry. | \n'
+				editor.replaceRange(updateChangelog, editor.getCursor());
+			}
+		})
+
 		// -----------------------------
 
 		// This creates an icon in the left ribbon.
